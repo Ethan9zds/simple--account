@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f6fa">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>简记 2.0</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--text:#15171b;--muted:#8b8f98;--line:#e9ebef;--accent:#17191f;--green:#16a36a;--red:#ed5d67;--soft:#f1f2f5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif}button,input,select{font:inherit}button{border:0;background:none;color:inherit}.app{max-width:520px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 17px calc(94px + env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 2px 12px}.title{font-size:29px;font-weight:800;letter-spacing:-1px}.sub{font-size:12px;color:var(--muted);margin-top:4px}.month{background:#fff;border:1px solid var(--line);border-radius:15px;padding:9px 11px;font-size:13px}
+.hero{background:linear-gradient(145deg,#242832,#111318);color:#fff;border-radius:27px;padding:22px;margin-bottom:15px;box-shadow:0 14px 34px #171a230f}.hero .label{font-size:12px;color:#b9bec8}.balance{font-size:37px;font-weight:800;margin:5px 0 20px;letter-spacing:-1px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#ffffff12;border:1px solid #ffffff12;border-radius:16px;padding:12px}.stat span{font-size:11px;color:#b9bec8}.stat b{display:block;font-size:17px;margin-top:5px}
+.card{background:var(--card);border-radius:23px;padding:17px;margin:14px 0;box-shadow:0 8px 26px #1d24300a}.row{display:flex;justify-content:space-between;align-items:center}.section{font-size:17px;font-weight:750}.muted{color:var(--muted);font-size:12px}.seg{background:var(--soft);padding:3px;border-radius:11px;display:flex}.seg button{padding:6px 10px;border-radius:8px;font-size:11px}.seg .sel{background:#fff;box-shadow:0 2px 7px #00000010;font-weight:700}
+.trend{height:112px;display:flex;align-items:flex-end;gap:7px;padding:18px 3px 3px}.bar{flex:1;border-radius:8px 8px 3px 3px;background:#e0e3e8;min-height:10px}.bar.active{background:#17191f}.days{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);padding:0 3px}
+.bill{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.bill:last-child{border-bottom:0}.icon{width:43px;height:43px;border-radius:14px;background:#f3f4f7;display:grid;place-items:center;font-size:20px;margin-right:12px}.billmain{flex:1;min-width:0}.billname{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.billmeta{font-size:11px;color:var(--muted);margin-top:3px}.amount{font-weight:750}.expense{color:var(--red)}.income{color:var(--green)}
+.fab{position:fixed;right:max(21px,calc((100vw - 520px)/2 + 17px));bottom:calc(79px + env(safe-area-inset-bottom));width:59px;height:59px;border-radius:21px;background:#17191f;color:#fff;font-size:29px;box-shadow:0 13px 28px #11182735;z-index:7}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:68px;padding-bottom:env(safe-area-inset-bottom);background:#fffffff2;backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:space-around;z-index:6}nav button{font-size:11px;color:var(--muted);min-width:70px}nav button.active{color:#17191f;font-weight:750}
+.modal{position:fixed;inset:0;background:#0006;display:none;align-items:flex-end;z-index:20}.sheet{width:min(520px,100%);margin:auto;background:#fff;border-radius:29px 29px 0 0;padding:19px 19px calc(22px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}.grab{width:38px;height:4px;background:#ddd;border-radius:5px;margin:0 auto 16px}.switch{display:flex;background:var(--soft);padding:4px;border-radius:14px;margin:12px 0}.switch button{flex:1;padding:10px;border-radius:10px}.switch .sel{background:#fff;box-shadow:0 2px 8px #0001;font-weight:700}.money{font-size:45px;font-weight:800;text-align:center;border:0;width:100%;outline:0;padding:8px}.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:11px 0}.cat{background:#f5f6f8;border-radius:14px;padding:9px 2px;font-size:11px}.cat.sel{background:#17191f;color:#fff}.cat div{font-size:20px;margin-bottom:3px}.input{width:100%;padding:12px;border:1px solid var(--line);border-radius:13px;outline:0;margin:4px 0 8px;background:#fff}.save{width:100%;padding:15px;background:#17191f;color:#fff;border-radius:16px;font-weight:750;margin-top:4px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:13px}.dow{text-align:center;color:var(--muted);font-size:10px;padding:3px}.day{min-height:53px;border-radius:12px;background:#fafafa;padding:6px 4px;font-size:11px;position:relative}.day.today{outline:2px solid #17191f}.day.mutedDay{opacity:.35}.day .dot{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#17191f}.day .num{text-align:center}.summaryLine{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.search{width:100%;background:#f1f2f5;border:0;border-radius:13px;padding:11px 13px;outline:0;margin:12px 0}
+.settingline{padding:14px 0;border-bottom:1px solid var(--line)}select{padding:8px 10px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.empty{padding:25px 5px;text-align:center;color:var(--muted);font-size:13px}.smallbtn{padding:7px 10px;background:var(--soft);border-radius:10px;font-size:11px}
+.dark{--bg:#0e1014;--card:#171a20;--text:#f3f4f6;--muted:#9499a5;--line:#292d35;--soft:#242831}.dark nav{background:#171a20ee}.dark .modal{background:#0008}.dark .sheet{background:#171a20}.dark .day{background:#1d2027}.dark .input,.dark select{background:#171a20;color:#fff}.dark .cat{background:#242831}.dark .cat.sel,.dark .save{background:#fff;color:#111}.dark .hero{background:linear-gradient(145deg,#262b35,#171a20)}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><div class="title">简记</div><div class="sub" id="sub">2026年9月 · 本月</div></div><select id="currency" class="month"><option value="JPY">¥ 日元</option><option value="CNY">￥ 人民币</option></select></header>
+
+<section id="home">
+<div class="hero"><div class="label">本期结余</div><div class="balance" id="balance">¥0</div><div class="stats"><div class="stat"><span>支出</span><b id="expense">¥0</b></div><div class="stat"><span>收入</span><b id="income">¥0</b></div></div></div>
+<div class="card"><div class="row"><div class="section">支出趋势</div><div class="seg"><button id="monthBtn" class="sel">本月</button><button id="weekBtn">本周</button></div></div><div class="trend" id="trend"></div><div class="days" id="days"></div></div>
+<div class="card"><div class="row"><div class="section">最近账单</div><button class="muted" onclick="showTab('bills')">查看全部</button></div><div id="recent"></div></div>
+</section>
+
+<section id="bills" class="hidden"><div class="card"><div class="row"><div class="section">账单</div><button class="smallbtn" onclick="openModal()">＋ 记一笔</button></div><input id="search" class="search" placeholder="搜索备注或分类"><div id="allBills"></div></div></section>
+
+<section id="stats" class="hidden"><div class="card"><div class="row"><div class="section">月历</div><button class="smallbtn" onclick="jumpToday()">今天</button></div><div id="calendar"></div></div><div class="card"><div class="row"><div class="section">分类统计</div><span class="muted">本月</span></div><div id="categories"></div></div></section>
+
+<section id="settings" class="hidden"><div class="card"><div class="section">设置</div><div class="settingline row"><span>记账币种</span><select id="currency2"><option value="JPY">¥ 日元</option><option value="CNY">￥ 人民币</option></select></div><div class="settingline row"><span>深色模式</span><button id="darkBtn" class="smallbtn" onclick="toggleDark()">开启 / 关闭</button></div><div class="settingline row"><span>数据</span><button class="smallbtn" onclick="exportData()">导出 JSON</button></div><div class="settingline row"><span>数据</span><button class="smallbtn" onclick="clearData()">清空账单</button></div><p class="muted">数据仅保存在本机浏览器。</p></div></section>
+</div>
+
+<button class="fab" onclick="openModal()">＋</button>
+<nav><button class="active" onclick="showTab('home',this)">⌂<br>首页</button><button onclick="showTab('bills',this)">☷<br>账单</button><button onclick="showTab('stats',this)">◔<br>统计</button><button onclick="showTab('settings',this)">⚙<br>设置</button></nav>
+
+<div class="modal" id="modal"><div class="sheet"><div class="grab"></div><div class="row"><div class="section" id="modalTitle">新建账单</div><button onclick="closeModal()">✕</button></div>
+<div class="switch"><button id="outBtn" class="sel" onclick="setType('expense')">支出</button><button id="inBtn" onclick="setType('income')">收入</button></div>
+<input class="money" id="amount" inputmode="decimal" placeholder="¥ 0">
+<div class="cats" id="cats"></div>
+<input class="input" id="date" type="date"><input class="input" id="note" placeholder="备注（可选）">
+<button class="save" onclick="saveBill()">保存</button></div></div>
+
+<script>
+const key="simple-account-v2";
+let data=JSON.parse(localStorage.getItem(key)||"[]"), currency=localStorage.getItem("currency")||"JPY", range="month",type="expense",editId=null, dark=localStorage.getItem("dark")==="1";
+const cats=[["🍜","餐饮"],["🛒","购物"],["🚃","交通"],["🏠","住房"],["🎮","娱乐"],["💊","医疗"],["📱","通讯"],["💰","工资"],["📦","其他"]];
+const $=id=>document.getElementById(id); const today=()=>new Date().toISOString().slice(0,10);
+function sym(){return currency==="JPY"?"¥":"￥"} function fmt(n){return sym()+Number(n).toLocaleString("ja-JP",{maximumFractionDigits:0})}
+function save(){localStorage.setItem(key,JSON.stringify(data));localStorage.setItem("currency",currency)}
+function d(s){return new Date(s+"T12:00:00")}
+function monthMatch(x){let n=new Date(),z=d(x.date);return z.getMonth()===n.getMonth()&&z.getFullYear()===n.getFullYear()}
+function current(){if(range==="month")return data.filter(monthMatch);let n=new Date(),start=new Date(n);start.setHours(0,0,0,0);start.setDate(n.getDate()-((n.getDay()+6)%7));return data.filter(x=>d(x.date)>=start)}
+function render(){document.body.classList.toggle("dark",dark);$("currency").value=currency;$("currency2").value=currency;let n=new Date(),cur=current(),e=cur.filter(x=>x.type==="expense").reduce((a,b)=>a+b.amount,0),i=cur.filter(x=>x.type==="income").reduce((a,b)=>a+b.amount,0);$("sub").textContent=n.getFullYear()+"年"+(n.getMonth()+1)+"月 · "+(range==="month"?"本月":"本周");$("balance").textContent=fmt(i-e);$("expense").textContent=fmt(e);$("income").textContent=fmt(i);renderTrend();renderBills();renderCats();renderCalendar()}
+function renderTrend(){let n=new Date(),v=[],lab=[];if(range==="week"){for(let j=6;j>=0;j--){let x=new Date(n);x.setDate(n.getDate()-j);let k=x.toISOString().slice(0,10);v.push(data.filter(a=>a.date===k&&a.type==="expense").reduce((s,a)=>s+a.amount,0));lab.push(["日","一","二","三","四","五","六"][x.getDay()])}}else{for(let j=5;j>=0;j--){let x=new Date(n.getFullYear(),n.getMonth()-j,1),m=x.getMonth(),y=x.getFullYear();v.push(data.filter(a=>a.type==="expense"&&d(a.date).getMonth()===m&&d(a.date).getFullYear()===y).reduce((s,a)=>s+a.amount,0));lab.push((m+1)+"月")}}let mx=Math.max(...v,1);$("trend").innerHTML=v.map((x,j)=>`<div class="bar ${j===v.length-1?'active':''}" style="height:${Math.max(10,x/mx*82)}px"></div>`).join("");$("days").innerHTML=lab.map(x=>`<span>${x}</span>`).join("")}
+function billHTML(x){let c=cats.find(a=>a[1]===x.cat)||cats[8];return `<div class="bill" onclick="editBill(${x.id})"><div class="icon">${c[0]}</div><div class="billmain"><div class="billname">${esc(x.note||x.cat)}</div><div class="billmeta">${x.cat} · ${x.date}</div></div><div class="amount ${x.type}">${x.type==="expense"?"-":"+"}${fmt(x.amount)}</div></div>`}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function renderBills(){let q=($("search")?.value||"").toLowerCase(),a=[...data].sort((x,y)=>y.date.localeCompare(x.date)).filter(x=>(x.note+" "+x.cat).toLowerCase().includes(q));$("recent").innerHTML=a.slice(0,5).map(billHTML).join("")||'<div class="empty">还没有账单<br>点击右下角＋开始记录</div>';$("allBills").innerHTML=a.map(billHTML).join("")||'<div class="empty">没有找到相关账单</div>'}
+function renderCats(){let a=data.filter(monthMatch&&(()=>true)),e=data.filter(x=>monthMatch(x)&&x.type==="expense"),total=e.reduce((s,x)=>s+x.amount,0);$("categories").innerHTML=cats.map(c=>{let v=e.filter(x=>x.cat===c[1]).reduce((s,x)=>s+x.amount,0);return v?`<div class="summaryLine"><span>${c[0]} ${c[1]} <span class="muted">${(v/total*100).toFixed(1)}%</span></span><b>${fmt(v)}</b></div>`:""}).join("")||'<div class="empty">本月暂无支出</div>'}
+function renderCalendar(){let n=new Date(),first=new Date(n.getFullYear(),n.getMonth(),1),last=new Date(n.getFullYear(),n.getMonth()+1,0),html='<div class="calendar">'+["一","二","三","四","五","六","日"].map(x=>`<div class="dow">${x}</div>`).join("");let offset=(first.getDay()+6)%7;for(let i=0;i<offset;i++)html+='<div></div>';for(let day=1;day<=last.getDate();day++){let ds=`${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`,has=data.some(x=>x.date===ds),cls=ds===today()?"today":"";html+=`<div class="day ${cls}"><div class="num">${day}</div>${has?'<div class="dot"></div>':''}</div>`}$("calendar").innerHTML=html+"</div>"}
+function showTab(id,btn){["home","bills","stats","settings"].forEach(x=>$(x).classList.toggle("hidden",x!==id));document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");else document.querySelector("nav button").classList.add("active")}
+function openModal(id=null){editId=id;if(id){let x=data.find(a=>a.id===id);$("modalTitle").textContent="编辑账单";$("amount").value=x.amount;$("date").value=x.date;$("note").value=x.note||"";setType(x.type);renderCatsForm(x.cat)}else{$("modalTitle").textContent="新建账单";$("amount").value="";$("date").value=today();$("note").value="";setType("expense")}$("modal").style.display="flex"}
+function closeModal(){$("modal").style.display="none";editId=null}
+function setType(t){type=t;$("outBtn").classList.toggle("sel",t==="expense");$("inBtn").classList.toggle("sel",t==="income");renderCatsForm()}
+function renderCatsForm(selected=null){let list=type==="income"?cats.filter(c=>c[1]==="工资"||c[1]==="其他"):cats;$("cats").innerHTML=list.map((c,i)=>`<button class="cat ${selected?selected===c[1]:(i===0)?true:false?'sel':''}" data-cat="${c[1]}" onclick="pickCat(this)"><div>${c[0]}</div>${c[1]}</button>`).join("")}
+function pickCat(el){document.querySelectorAll(".cat").forEach(x=>x.classList.remove("sel"));el.classList.add("sel")}
+function saveBill(){let amount=parseFloat($("amount").value),cat=document.querySelector(".cat.sel")?.dataset.cat;if(!amount||!cat)return alert("请输入金额并选择分类");let obj={id:editId||Date.now(),amount,type,cat,date:$("date").value,note:$("note").value.trim()};if(editId)data=data.map(x=>x.id===editId?obj:x);else data.push(obj);save();closeModal();render()}
+function editBill(id){openModal(id)}
+function clearData(){if(confirm("确定清空所有账单？此操作不可恢复。")){data=[];save();render()}}
+function exportData(){let blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="简记账单.json";a.click();URL.revokeObjectURL(a.href)}
+function toggleDark(){dark=!dark;localStorage.setItem("dark",dark?"1":"0");render()}
+function jumpToday(){render()}
+$("currency").onchange=e=>{currency=e.target.value;save();render()};$("currency2").onchange=e=>{currency=e.target.value;save();render()};$("monthBtn").onclick=()=>{range="month";$("monthBtn").classList.add("sel");$("weekBtn").classList.remove("sel");render()};$("weekBtn").onclick=()=>{range="week";$("weekBtn").classList.add("sel");$("monthBtn").classList.remove("sel");render()};$("search").oninput=renderBills;
+render();
+</script>
+</body></html>
